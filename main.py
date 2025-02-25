@@ -27,18 +27,26 @@ def main():
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
     asteroids_field = AsteroidField()
 
-    text = font.render('TEST KASJHDLKJHFG', True, (255, 255, 255), (0, 0, 0))
-    rect = text.get_rect()
-    rect.center = (100, 100)
+    lives = font.render(str(f'LIVES: {player.lives}'), True, (255, 255, 255), (0, 0, 0))
+    rect = lives.get_rect()
+    rect_size = lives.get_size()
+    rect.center = (rect_size[0] / 2, rect_size[1] / 2)
     while True:
+        
         screen.fill("black")
-        screen.blit(text, rect) 
+        screen.blit(lives, rect) 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
             
         for a in asteroids:
-            if a.colliding(player):
+            if a.colliding(player) and player.lives > 0:
+                a.split()
+                player.damage()
+                lives = font.render(str(f'LIVES: {player.lives}'), True, (255, 255, 255), (0, 0, 0))
+                rect = lives.get_rect()
+                screen.blit(lives, rect) 
+            elif a.colliding(player):
                 print('Game over!')
                 return
             for shot in shots:
