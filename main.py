@@ -8,6 +8,8 @@ from shot import Shot
 
 def main():
     pygame.init()
+    pygame.font.init()
+    font = pygame.font.Font('freesansbold.ttf', 32)
     clock = pygame.time.Clock()
     dt = 0
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -25,7 +27,12 @@ def main():
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
     asteroids_field = AsteroidField()
 
+    text = font.render('TEST KASJHDLKJHFG', True, (255, 255, 255), (0, 0, 0))
+    rect = text.get_rect()
+    rect.center = (100, 100)
     while True:
+        screen.fill("black")
+        screen.blit(text, rect) 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
@@ -40,7 +47,6 @@ def main():
                     shot.kill()
             
         updatable.update(dt)
-        screen.fill("black")
         for sprite in drawable:
             sprite.draw(screen)
 
